@@ -116,7 +116,7 @@
           <div>
             <p class="eyebrow">SEARCH • CONCIERGE</p>
             <h4>ค้นหาสถานที่ท่องเที่ยว + เลือกบรรยากาศที่ใช่</h4>
-            <p class="muted">ระบบค้นหาแบบเรียลไทม์ ผสานข้อมูล EXPLORE และ BIG SPOTS พร้อมปุ่มลัดโหมดเวลา/ริมน้ำ/คาเฟ่</p>
+            <p class="muted">ระบบค้นหาที่เข้าใจอารมณ์เมือง เรียลไทม์และจับคู่ริมน้ำ/วัฒนธรรม/ค่ำคืน พร้อมเชื่อมต่อแผนที่-ไลต์บ็อกซ์</p>
           </div>
           <div class="search-input">
             <span class="icon">⌕</span>
@@ -130,9 +130,20 @@
             <button data-query="sunset">Sunset</button>
             <button data-query="ตลาด">ตลาดกลางคืน</button>
           </div>
-          <div class="search-meta">
-            <span id="search-count">Live concierge search</span>
-            <span class="pill">รวม EXPLORE + SPOTS</span>
+          <div class="search-lens" id="search-lens">
+            <button class="active" data-lens="all">ทั้งหมด</button>
+            <button data-lens="river">ริมโขง</button>
+            <button data-lens="culture">วัฒนธรรม/ศิลป์</button>
+            <button data-lens="cafe">คาเฟ่/สโลว์บาร์</button>
+            <button data-lens="night">ค่ำคืน</button>
+          </div>
+          <div class="search-status" id="search-status">
+            <div>
+              <p class="eyebrow">LIVE RESULT</p>
+              <h5 id="search-count">Live concierge search</h5>
+              <p class="muted" id="search-status-body">รอรับคำค้นเพื่อเริ่มคัดสรร</p>
+            </div>
+            <span class="pill" id="search-status-lens">ทุกโหมด</span>
           </div>
         </div>
         <div id="search-results" class="search-results"></div>
@@ -187,9 +198,9 @@
       <div class="container section-header">
         <div>
           <p class="eyebrow">HORIZONTAL STRIP</p>
-          <h3>คัด 3 แถว มองเห็นอารมณ์เมืองแบบต่อเนื่อง</h3>
+          <h3>คัด 3 แถว มองเห็นอารมณ์เมืองต่อเนื่อง</h3>
         </div>
-        <p class="muted">ภาพกว้างแนวนอน เหมาะกับสไลด์โชว์บนจอใหญ่</p>
+        <p class="muted">แพนโทนภาพแนวนอนสามช่วงเวลา ติดกันเป็นฟิล์มยาว ใช้ได้ทั้งสไลด์โชว์และไลต์บ็อกซ์</p>
       </div>
       <div class="strip-rows" id="strip-rows"></div>
     </section>

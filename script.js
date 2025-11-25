@@ -5,6 +5,7 @@ const state = {
   weather: null,
   map: null,
   searchIndex: [],
+  searchLens: 'all',
   openLightbox: null
 };
 
@@ -122,15 +123,34 @@ function buildSpots(list) {
 function buildStrips(rows) {
   const wrap = document.getElementById('strip-rows');
   wrap.innerHTML = '';
-  rows.forEach(row => {
+  const moods = [
+    { title: 'Morning mist', desc: 'หมอกริมโขง แสงเช้าอ่อน และเส้นสายของสะพาน', lens: 'dawn' },
+    { title: 'Daylight drift', desc: 'คาเฟ่ ศิลป์ และตลาดกลางวัน เดินช้า ๆ รับแดดโทนอุ่น', lens: 'cafe' },
+    { title: 'Neon river night', desc: 'โบเก้ไฟสะพาน ตลาดค่ำ และเงาสะท้อนในน้ำ', lens: 'night' }
+  ];
+
+  rows.forEach((row, idx) => {
+    const mood = moods[idx] || moods[0];
     const rowEl = document.createElement('div');
     rowEl.className = 'strip-row';
+    rowEl.innerHTML = `
+      <div class="strip-mood">
+        <p class="eyebrow">${mood.title}</p>
+        <h4>${mood.desc}</h4>
+        <span class="line"></span>
+        <p class="muted">${getLensLabel(mood.lens)}</p>
+      </div>
+      <div class="strip-track"></div>
+    `;
+    const track = rowEl.querySelector('.strip-track');
     row.forEach(src => {
-      const img = document.createElement('img');
-      img.src = src;
-      img.alt = 'strip';
-      img.setAttribute('data-lightbox', src);
-      rowEl.appendChild(img);
+      const frame = document.createElement('div');
+      frame.className = 'strip-frame';
+      frame.innerHTML = `
+        <img src="${src}" alt="city mood" data-lightbox="${src}" />
+        <span class="scrim"></span>
+      `;
+      track.appendChild(frame);
     });
     wrap.appendChild(rowEl);
   });
@@ -154,55 +174,101 @@ function buildSearchIndex(data) {
     ...item,
     type: 'explore',
     meta: `${item.location || ''} · ${item.time || ''}`,
-    keywords: `${item.title} ${item.description} ${item.location} ${item.time} river mekong cafe sunset temple art walk`.
-      toLowerCase()
+    lenses: deriveLenses(item),
+    keywords: buildKeywords(item, `${item.title} ${item.description} ${item.location} ${item.time} river mekong cafe sunset temple art walk`)
   }));
 
   const spots = (data.spots || []).map(item => ({
     ...item,
     type: 'spot',
     meta: `${item.area || ''} · ${item.tag || ''}`,
-    keywords: `${item.title} ${item.area} ${item.tag} landmark market river mekong sunset cafe art temple view park`.toLowerCase()
+    lenses: deriveLenses(item),
+    keywords: buildKeywords(item, `${item.title} ${item.area} ${item.tag} landmark market river mekong sunset cafe art temple view park`)
   }));
 
   state.searchIndex = [...explore, ...spots];
   renderSearchResults(getSearchShowcase());
   updateSearchCount(state.searchIndex.length, 'live showcase');
+  updateSearchStatus('จับคีย์เวิร์ดหรือเลือกเลนส์บรรยากาศได้ทันที');
   bindSearchEvents();
 }
 
+function buildKeywords(item, base) {
+  const text = `${base}`.toLowerCase();
+  const synonyms = {
+    'ริมโขง': 'river mekong riverside',
+    'ตลาด': 'market night bazaar streetfood',
+    'วัด': 'temple culture faith',
+    'sunset': 'bluehour dusk golden hour',
+    'cafe': 'coffee slowbar brunch'
+  };
+  const lensWords = deriveLenses(item).join(' ');
+  const synonymText = Object.values(synonyms).join(' ');
+  return `${text} ${lensWords} ${synonymText}`;
+}
+
+function deriveLenses(item) {
+  const lens = ['all'];
+  const text = `${item.title} ${item.description || ''} ${item.location || item.area || ''} ${item.tag || ''} ${item.time || ''}`.
+    toLowerCase();
+  if (/rimkong|ริมโขง|river|mekong/.test(text)) lens.push('river');
+  if (/วัด|temple|ศิลป์|art|gallery/.test(text)) lens.push('culture');
+  if (/คาเฟ่|cafe|coffee|slow/.test(text)) lens.push('cafe');
+  if (/night|ตลาด|sunset|ค่ำ|blue/.test(text)) lens.push('night');
+  if (/เช้า|morning|dawn|fog/.test(text)) lens.push('dawn');
+  return Array.from(new Set(lens));
+}
+
 function getSearchShowcase() {
-  const preferred = state.searchIndex.filter(item => item.type === 'explore').slice(0, 6);
-  const addSpots = state.searchIndex.filter(item => item.type === 'spot').slice(0, 4);
+  const hour = new Date().getHours();
+  let moodLens = state.searchLens;
+  if (moodLens === 'all') {
+    if (hour < 10) moodLens = 'dawn';
+    else if (hour < 16) moodLens = 'river';
+    else if (hour < 20) moodLens = 'cafe';
+    else moodLens = 'night';
+  }
+
+  const pool = state.searchIndex.filter(item => moodLens === 'all' || item.lenses?.includes(moodLens));
+  const curated = pool.length ? pool : state.searchIndex;
+  const preferred = curated.filter(item => item.type === 'explore').slice(0, 6);
+  const addSpots = curated.filter(item => item.type === 'spot').slice(0, 4);
   return [...preferred, ...addSpots];
 }
 
 function filterSearch(query) {
   const q = query.trim().toLowerCase();
+  const lens = state.searchLens;
   if (!q) {
-    renderSearchResults(getSearchShowcase());
-    updateSearchCount(state.searchIndex.length, 'live showcase');
+    const showcase = getSearchShowcase();
+    renderSearchResults(showcase);
+    updateSearchCount(showcase.length, lens === 'all' ? 'live showcase' : getLensLabel(lens));
+    updateSearchStatus('คัดเรียงตามเลนส์และเวลาปัจจุบัน');
     return;
   }
   const tokens = q.split(/\s+/).filter(Boolean);
   const ranked = state.searchIndex
+    .filter(item => lens === 'all' || item.lenses?.includes(lens))
     .map(item => {
-      const baseScore = item.type === 'explore' ? 2 : 1;
+      const baseScore = item.type === 'explore' ? 3 : 2;
+      const lensBoost = lens !== 'all' && item.lenses?.includes(lens) ? 3 : 0;
+      const timeBoost = scoreTimeMatch(item.time);
       const tokenScore = tokens.reduce((score, t) => {
         let s = score;
-        if (item.title.toLowerCase().includes(t)) s += 3;
-        if ((item.meta || '').toLowerCase().includes(t)) s += 2;
-        if (item.keywords.includes(t)) s += 1;
+        if (item.title.toLowerCase().includes(t)) s += 4;
+        if ((item.meta || '').toLowerCase().includes(t)) s += 3;
+        if (item.keywords.includes(t)) s += 2;
         return s;
-      }, baseScore);
+      }, baseScore + lensBoost + timeBoost);
       return { item, score: tokenScore };
     })
-    .filter(entry => entry.score > 1)
+    .filter(entry => entry.score > 2)
     .sort((a, b) => b.score - a.score)
     .map(entry => entry.item);
 
   renderSearchResults(ranked);
-  updateSearchCount(ranked.length, q);
+  updateSearchCount(ranked.length, q || '');
+  updateSearchStatus(`คำค้น "${query}" • จัดอันดับตามความใกล้เคียงและเลนส์ ${getLensLabel(lens)}`);
 }
 
 function renderSearchResults(list) {
@@ -218,10 +284,18 @@ function renderSearchResults(list) {
     const card = document.createElement('article');
     card.className = 'search-card';
     card.innerHTML = `
-      <div class="pill">${item.type === 'explore' ? 'EXPLORE' : 'BIG SPOT'}</div>
-      <div class="search-thumb" style="background-image:url('${item.image}')"></div>
+      <div class="search-card-top">
+        <span class="pill tone-${item.type}">${item.type === 'explore' ? 'EXPLORE' : 'BIG SPOT'}</span>
+        <span class="pill soft">${getLensLabel((item.lenses || [])[1] || 'all')}</span>
+      </div>
+      <div class="search-thumb" style="background-image:url('${item.image}')">
+        <span class="thumb-meta">${item.area || item.location || 'Nongkhai'}</span>
+      </div>
       <h5>${item.title}</h5>
-      <small>${item.meta}</small>
+      <div class="search-meta-row">
+        <small>${item.meta}</small>
+        <small class="muted">${item.tag || item.time || ''}</small>
+      </div>
       <p class="muted">${item.description || 'มุมไฮไลต์สำหรับแผนเที่ยววันนี้'}</p>
     `;
     card.addEventListener('click', () => handleSearchSelect(item));
@@ -251,6 +325,7 @@ function bindSearchEvents() {
   const input = document.getElementById('search-input');
   const clearBtn = document.getElementById('search-clear');
   const chips = document.querySelectorAll('#search-chips button');
+  const lensButtons = document.querySelectorAll('#search-lens button');
   if (!input) return;
 
   let timer;
@@ -273,6 +348,15 @@ function bindSearchEvents() {
       filterSearch(q);
     });
   });
+
+  lensButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      lensButtons.forEach(b => b.classList.toggle('active', b === btn));
+      state.searchLens = btn.dataset.lens || 'all';
+      filterSearch(input.value || '');
+      updateSearchStatus(`โหมด ${getLensLabel(state.searchLens)} • ปรับผลลัพธ์สด`);
+    });
+  });
 }
 
 function updateSearchCount(count, queryLabel) {
@@ -280,6 +364,34 @@ function updateSearchCount(count, queryLabel) {
   if (!counter) return;
   const label = count === 0 ? 'no match' : `${count} results`;
   counter.textContent = `${label} • ${queryLabel}`;
+}
+
+function updateSearchStatus(text) {
+  const status = document.getElementById('search-status');
+  const lens = document.getElementById('search-status-lens');
+  const body = document.getElementById('search-status-body');
+  if (!status || !lens || !body) return;
+  lens.textContent = getLensLabel(state.searchLens);
+  body.textContent = text;
+}
+
+function getLensLabel(key) {
+  const map = {
+    all: 'ทุกโหมด',
+    river: 'ริมโขง',
+    culture: 'วัฒนธรรม/ศิลป์',
+    cafe: 'คาเฟ่',
+    night: 'ค่ำคืน',
+    dawn: 'เช้า/หมอก'
+  };
+  return map[key] || 'เมือง';
+}
+
+function scoreTimeMatch(timeRange) {
+  if (!timeRange) return 0;
+  const hour = new Date().getHours();
+  const { start, end } = parseTimeRange(timeRange);
+  return hour >= start && hour <= end ? 2 : 0;
 }
 
 function buildFestivals(list) {
