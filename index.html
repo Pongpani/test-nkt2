@@ -111,6 +111,32 @@
         </div>
         <p class="muted">คัดสรรเส้นทางเดินและคาเฟ่ริมแม่น้ำในระยะไม่ไกลจากตัวเมือง</p>
       </div>
+      <div class="search-panel container" id="search">
+        <div class="search-head">
+          <div>
+            <p class="eyebrow">SEARCH • CONCIERGE</p>
+            <h4>ค้นหาสถานที่ท่องเที่ยว + เลือกบรรยากาศที่ใช่</h4>
+            <p class="muted">ระบบค้นหาแบบเรียลไทม์ ผสานข้อมูล EXPLORE และ BIG SPOTS พร้อมปุ่มลัดโหมดเวลา/ริมน้ำ/คาเฟ่</p>
+          </div>
+          <div class="search-input">
+            <span class="icon">⌕</span>
+            <input id="search-input" type="search" placeholder="ค้นหา: ริมโขง คาเฟ่ สะพานมิตรภาพ วัดโพธิ์ชัย..." aria-label="Search places" />
+            <button id="search-clear" class="ghost">ล้าง</button>
+          </div>
+          <div class="search-chips" id="search-chips">
+            <button data-query="ริมโขง">ริมโขง</button>
+            <button data-query="คาเฟ่">คาเฟ่</button>
+            <button data-query="พระ">วัด / ศิลป์</button>
+            <button data-query="sunset">Sunset</button>
+            <button data-query="ตลาด">ตลาดกลางคืน</button>
+          </div>
+          <div class="search-meta">
+            <span id="search-count">Live concierge search</span>
+            <span class="pill">รวม EXPLORE + SPOTS</span>
+          </div>
+        </div>
+        <div id="search-results" class="search-results"></div>
+      </div>
       <div class="container explore-grid" id="explore-grid"></div>
     </section>
 

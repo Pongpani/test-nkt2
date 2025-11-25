@@ -2,7 +2,10 @@ const state = {
   data: null,
   slideIndex: 0,
   sliderTimer: null,
-  weather: null
+  weather: null,
+  map: null,
+  searchIndex: [],
+  openLightbox: null
 };
 
 async function loadData() {
@@ -146,6 +149,139 @@ function buildMasonry(list) {
   });
 }
 
+function buildSearchIndex(data) {
+  const explore = (data.explore || []).map(item => ({
+    ...item,
+    type: 'explore',
+    meta: `${item.location || ''} · ${item.time || ''}`,
+    keywords: `${item.title} ${item.description} ${item.location} ${item.time} river mekong cafe sunset temple art walk`.
+      toLowerCase()
+  }));
+
+  const spots = (data.spots || []).map(item => ({
+    ...item,
+    type: 'spot',
+    meta: `${item.area || ''} · ${item.tag || ''}`,
+    keywords: `${item.title} ${item.area} ${item.tag} landmark market river mekong sunset cafe art temple view park`.toLowerCase()
+  }));
+
+  state.searchIndex = [...explore, ...spots];
+  renderSearchResults(getSearchShowcase());
+  updateSearchCount(state.searchIndex.length, 'live showcase');
+  bindSearchEvents();
+}
+
+function getSearchShowcase() {
+  const preferred = state.searchIndex.filter(item => item.type === 'explore').slice(0, 6);
+  const addSpots = state.searchIndex.filter(item => item.type === 'spot').slice(0, 4);
+  return [...preferred, ...addSpots];
+}
+
+function filterSearch(query) {
+  const q = query.trim().toLowerCase();
+  if (!q) {
+    renderSearchResults(getSearchShowcase());
+    updateSearchCount(state.searchIndex.length, 'live showcase');
+    return;
+  }
+  const tokens = q.split(/\s+/).filter(Boolean);
+  const ranked = state.searchIndex
+    .map(item => {
+      const baseScore = item.type === 'explore' ? 2 : 1;
+      const tokenScore = tokens.reduce((score, t) => {
+        let s = score;
+        if (item.title.toLowerCase().includes(t)) s += 3;
+        if ((item.meta || '').toLowerCase().includes(t)) s += 2;
+        if (item.keywords.includes(t)) s += 1;
+        return s;
+      }, baseScore);
+      return { item, score: tokenScore };
+    })
+    .filter(entry => entry.score > 1)
+    .sort((a, b) => b.score - a.score)
+    .map(entry => entry.item);
+
+  renderSearchResults(ranked);
+  updateSearchCount(ranked.length, q);
+}
+
+function renderSearchResults(list) {
+  const wrap = document.getElementById('search-results');
+  if (!wrap) return;
+  if (!list.length) {
+    wrap.innerHTML = '<div class="muted">ไม่พบผลลัพธ์ ลองคำหลักอื่น เช่น "สะพาน" หรือ "ตลาด"</div>';
+    return;
+  }
+
+  wrap.innerHTML = '';
+  list.forEach(item => {
+    const card = document.createElement('article');
+    card.className = 'search-card';
+    card.innerHTML = `
+      <div class="pill">${item.type === 'explore' ? 'EXPLORE' : 'BIG SPOT'}</div>
+      <div class="search-thumb" style="background-image:url('${item.image}')"></div>
+      <h5>${item.title}</h5>
+      <small>${item.meta}</small>
+      <p class="muted">${item.description || 'มุมไฮไลต์สำหรับแผนเที่ยววันนี้'}</p>
+    `;
+    card.addEventListener('click', () => handleSearchSelect(item));
+    wrap.appendChild(card);
+  });
+}
+
+function handleSearchSelect(item) {
+  if (item.type === 'explore') {
+    openExploreDetail(item);
+  } else {
+    focusMapOnSpot(item);
+    if (state.openLightbox && item.image) state.openLightbox(item.image);
+  }
+}
+
+function focusMapOnSpot(item) {
+  const mapCard = document.getElementById('map');
+  mapCard?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  if (state.map && item.coords) {
+    state.map.setView(item.coords, 15, { animate: true });
+    L.popup().setLatLng(item.coords).setContent(`<strong>${item.title}</strong><br>${item.area || ''} · ${item.tag || ''}`).openOn(state.map);
+  }
+}
+
+function bindSearchEvents() {
+  const input = document.getElementById('search-input');
+  const clearBtn = document.getElementById('search-clear');
+  const chips = document.querySelectorAll('#search-chips button');
+  if (!input) return;
+
+  let timer;
+  input.addEventListener('input', e => {
+    const value = e.target.value;
+    clearTimeout(timer);
+    timer = setTimeout(() => filterSearch(value), 160);
+  });
+
+  clearBtn?.addEventListener('click', () => {
+    input.value = '';
+    filterSearch('');
+    input.focus();
+  });
+
+  chips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      const q = chip.dataset.query || '';
+      input.value = q;
+      filterSearch(q);
+    });
+  });
+}
+
+function updateSearchCount(count, queryLabel) {
+  const counter = document.getElementById('search-count');
+  if (!counter) return;
+  const label = count === 0 ? 'no match' : `${count} results`;
+  counter.textContent = `${label} • ${queryLabel}`;
+}
+
 function buildFestivals(list) {
   const wrap = document.getElementById('festival-cards');
   wrap.innerHTML = '';
@@ -191,6 +327,8 @@ function initLightbox() {
   closeBtn.addEventListener('click', close);
   lightbox.addEventListener('click', e => { if (e.target === lightbox) close(); });
   document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+
+  state.openLightbox = open;
 }
 
 function openExploreDetail(item) {
@@ -348,6 +486,8 @@ function initMap(spots) {
     if (!s.coords) return;
     L.marker(s.coords).addTo(map).bindPopup(`<strong>${s.title}</strong><br>${s.area} · ${s.tag}`);
   });
+
+  state.map = map;
 }
 
 async function init() {
@@ -359,6 +499,7 @@ async function init() {
     buildStrips(state.data.stripRows);
     buildMasonry(state.data.masonry);
     buildFestivals(state.data.festivals);
+    buildSearchIndex(state.data);
     initMap(state.data.spots);
     initLightbox();
     bindExploreDetailEvents();
