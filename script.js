@@ -14,8 +14,10 @@ async function loadData() {
 function buildHero(slides) {
   const slideWrap = document.getElementById('hero-slides');
   const dotWrap = document.getElementById('hero-dots');
+  const progressWrap = document.getElementById('hero-progress');
   slideWrap.innerHTML = '';
   dotWrap.innerHTML = '';
+  progressWrap.innerHTML = '';
 
   slides.forEach((item, index) => {
     const slide = document.createElement('div');
@@ -37,6 +39,10 @@ function buildHero(slides) {
       startSlider();
     });
     dotWrap.appendChild(dot);
+
+    const bar = document.createElement('span');
+    bar.dataset.index = index;
+    progressWrap.appendChild(bar);
   });
 
   showSlide(0);
@@ -48,6 +54,7 @@ function showSlide(index) {
   const dots = document.querySelectorAll('#hero-dots button');
   slides.forEach((s, i) => s.classList.toggle('active', i === index));
   dots.forEach((d, i) => d.classList.toggle('active', i === index));
+  updateHeroProgress(index);
   state.slideIndex = index;
 }
 
@@ -58,6 +65,19 @@ function startSlider() {
     const next = (state.slideIndex + 1) % slides.length;
     showSlide(next);
   }, 6000);
+}
+
+function updateHeroProgress(index) {
+  const bars = document.querySelectorAll('.hero-progress span');
+  bars.forEach((bar, i) => {
+    bar.classList.toggle('active', i === index);
+    if (i === index) {
+      bar.style.setProperty('--fill', '0%');
+      requestAnimationFrame(() => bar.style.setProperty('--fill', '100%'));
+    } else {
+      bar.style.setProperty('--fill', '0%');
+    }
+  });
 }
 
 function buildExplore(list) {
@@ -266,6 +286,9 @@ function updateSmartSuggestion() {
   box.querySelector('small').textContent = rec;
 
   buildConciergeList(timeCue, rec, weather.temp);
+
+  const pick = pickExploreForNow(hour, weather.condition);
+  if (pick) updateConciergePick(pick, timeCue, weather.condition);
 }
 
 function buildConciergeList(timeCue, rec, temp) {
@@ -277,6 +300,41 @@ function buildConciergeList(timeCue, rec, temp) {
     { title: 'ข้อแนะนำ', text: rec }
   ];
   list.innerHTML = cues.map(c => `<li><strong>${c.title}</strong><br>${c.text}</li>`).join('');
+}
+
+function parseTimeRange(str) {
+  if (!str || !str.includes('-')) return { start: 0, end: 24 };
+  const [startRaw, endRaw] = str.split('-');
+  const parse = raw => {
+    const [h, m = '0'] = raw.split('.');
+    return parseInt(h, 10) + parseInt(m, 10) / 60;
+  };
+  return { start: parse(startRaw), end: parse(endRaw) };
+}
+
+function pickExploreForNow(hour, condition) {
+  const list = state.data?.explore || [];
+  if (!list.length) return null;
+  const matches = list.filter(item => {
+    const range = parseTimeRange(item.time);
+    return hour >= range.start && hour <= range.end;
+  });
+  let pool = matches.length ? matches : list;
+  if (condition.toLowerCase().includes('rain')) {
+    const indoor = pool.filter(item => /คาเฟ่|วัด|ตลาด|แกลเลอรี|ศิลป์/i.test(`${item.title} ${item.description}`));
+    if (indoor.length) pool = indoor;
+  }
+  const index = hour % pool.length;
+  return pool[index];
+}
+
+function updateConciergePick(item, timeCue, condition) {
+  const box = document.getElementById('concierge-pick');
+  if (!box) return;
+  box.classList.add('highlight');
+  box.querySelector('.value').innerHTML = `${item.title}<br><small>${item.location} · ${item.time}</small>`;
+  box.querySelector('small').textContent = `${timeCue} • ${condition}`;
+  box.onclick = () => openExploreDetail(item);
 }
 
 function initMap(spots) {
