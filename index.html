@@ -3,10 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Nongkhai Retreat – premium travel inspiration crafted with Aman Resort aesthetics." />
-  <title>Nongkhai Retreat | Luxury Mekong Escape</title>
+  <meta name="description" content="Nongkhai Retreat – concierge search for 12 gentle city moments." />
+  <title>Nongkhai Retreat | Search Concierge</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:wght@500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -15,108 +14,29 @@
       <div class="logo">
         <span class="logo-mark">◦</span> Nongkhai <span class="accent">Retreat</span>
       </div>
-      <nav class="nav-links">
-        <a href="#hero">Home</a>
-        <a href="#profile">Profile</a>
-        <a href="#explore">Explore</a>
-        <a href="#spots">Spots</a>
-        <a href="#gallery">Gallery</a>
-        <a href="#map">Map</a>
-      </nav>
+      <div class="nav-copy">
+        <p class="eyebrow">SEARCH • CONCIERGE</p>
+        <p class="muted">ค้นหาสถานที่ท่องเที่ยว + เลือกบรรยากาศที่ใช่</p>
+      </div>
     </div>
   </header>
 
   <main>
-    <section id="hero" class="hero">
-      <div class="hero-slider">
-        <div class="hero-slides" id="hero-slides"></div>
-        <div class="hero-dots" id="hero-dots"></div>
-        <div class="hero-progress" id="hero-progress"></div>
-      </div>
-      <div class="hero-overlay"></div>
-      <div class="hero-content container">
-        <p class="eyebrow">MEKONG RIVER • LUXURY QUIETUDE</p>
-        <h1>อำเภอเมืองหนองคาย<br><span>เหนือกว่าการเดินทาง คือจังหวะชีวิตที่ช้าลง</span></h1>
-        <p class="hero-sub">แรงบันดาลใจจากรีสอร์ตระดับโลก ผสมผสานความละเมียดของศิลป์ลาวกับความมินิมอลแบบเอเชียร่วมสมัย</p>
-        <div class="hero-info">
-          <div class="hero-chip">Curated stays • Slow travel • Riverside rituals</div>
-          <div class="hero-chip">5 curated frames · auto slideshow</div>
-        </div>
-        <div class="intel-bar">
-          <div class="intel-block" id="weather-box">
-            <div class="label">Weather now</div>
-            <div class="value">Loading...</div>
-            <small>อัปเดตแบบเรียลไทม์</small>
-          </div>
-          <div class="intel-block" id="suggestion-box">
-            <div class="label">Smart suggestion</div>
-            <div class="value">กำลังวิเคราะห์ช่วงเวลาที่ดีที่สุด...</div>
-            <small>ปรับตามสภาพอากาศ &amp; เวลา</small>
-          </div>
-          <div class="intel-block" id="concierge-pick">
-            <div class="label">Concierge pick</div>
-            <div class="value">กำลังเลือกจุดที่ใช่...</div>
-            <small>จับคู่จากเวลาและอากาศ</small>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="parallax parallax-1">
-      <div class="parallax-inner container">
-        <h2>ปรับโหมดเป็นความนิ่ง</h2>
-        <p>เสียงน้ำโขงและลมเหนือร่มไม้ใหญ่คือซาวน์แทร็กของการพักผ่อน</p>
-      </div>
-    </section>
-
-    <section id="profile" class="section profile">
-      <div class="container profile-grid">
-        <div class="profile-copy">
-          <p class="eyebrow">CITY PROFILE</p>
-          <h3>เมืองหนองคาย • Riverside Serenity</h3>
-          <p>จุดเชื่อมของศิลปะไทย–ลาวที่มีสะพานมิตรภาพเป็นสัญลักษณ์ ด้วยริเวอร์ไซด์ที่เดินง่าย ทุกมุมมองชวนถ่ายภาพ และผู้คนที่ยิ้มต้อนรับเสมอ</p>
-          <p>โครงสร้างเว็บนี้ออกแบบให้ใช้เป็นแรงบันดาลใจ ทั้งสำหรับการสร้างเพจท่องเที่ยว โรงแรม หรือโครงการอสังหริมโขงที่ต้องการดีไซน์เรียบหรูแบบอะมาน</p>
-          <div class="profile-pills">
-            <span>ศาลาแก้วกู่</span><span>วัดโพธิ์ชัย</span><span>สะพานมิตรภาพ</span><span>ตลาดท่าเสด็จ</span>
-          </div>
-        </div>
-        <div class="profile-card">
-          <div id="festival-cards" class="festival-grid"></div>
-        </div>
-        <div class="profile-card map-card" id="map">
-          <div class="card-header">
-            <div>
-              <p class="eyebrow">DESTINATION MAP</p>
-              <h4>Leaflet interactive map</h4>
-            </div>
-            <span class="pill">Live</span>
-          </div>
-          <div id="leaflet-map"></div>
-        </div>
-        <div class="profile-card insight">
-          <div class="card-header">
-            <p class="eyebrow">TRAVEL INTEL</p>
-            <h4>Weather-aware concierge</h4>
-          </div>
-          <ul class="insight-list" id="concierge-list"></ul>
-        </div>
-      </div>
-    </section>
-
-    <section id="explore" class="section explore">
+    <section class="section concierge" id="search">
       <div class="container section-header">
         <div>
           <p class="eyebrow">EXPLORE</p>
-          <h3>12 จุดเบา ๆ สำหรับทำความรู้จักเมือง</h3>
+          <h1>12 จุดเบา ๆ สำหรับทำความรู้จักเมือง</h1>
         </div>
-        <p class="muted">คัดสรรเส้นทางเดินและคาเฟ่ริมแม่น้ำในระยะไม่ไกลจากตัวเมือง</p>
+        <p class="muted">คัดเฉพาะเส้นทางเดิน คาเฟ่ และมุมริมโขงที่เรียบง่าย ใช้ระบบค้นหารูป + บรรยากาศที่ตรงใจ</p>
       </div>
-      <div class="search-panel container" id="search">
+
+      <div class="container search-panel">
         <div class="search-head">
           <div>
             <p class="eyebrow">SEARCH • CONCIERGE</p>
-            <h4>ค้นหาสถานที่ท่องเที่ยว + เลือกบรรยากาศที่ใช่</h4>
-            <p class="muted">ระบบค้นหาที่เข้าใจอารมณ์เมือง เรียลไทม์และจับคู่ริมน้ำ/วัฒนธรรม/ค่ำคืน พร้อมเชื่อมต่อแผนที่-ไลต์บ็อกซ์</p>
+            <h4>เลือกคีย์เวิร์ดหรือโหมดบรรยากาศ แล้วไล่ดูภาพจริงของทั้ง 12 จุด</h4>
+            <p class="muted">โชว์เฉพาะผลลัพธ์ในหน้าค้นหา ไม่มีส่วนแกลเลอรีอื่น ๆ ให้รบกวนสายตา</p>
           </div>
           <div class="search-input">
             <span class="icon">⌕</span>
@@ -148,107 +68,53 @@
         </div>
         <div id="search-results" class="search-results"></div>
       </div>
-      <div class="container explore-grid" id="explore-grid"></div>
-    </section>
-
-    <div id="explore-detail" class="detail-overlay" aria-hidden="true">
-      <div class="detail-panel">
-        <button class="detail-close" aria-label="Close explore detail">&times;</button>
-        <div class="detail-media">
-          <img class="detail-img" src="" alt="Explore detail" />
-        </div>
-        <div class="detail-content">
-          <p class="eyebrow">EXPLORE</p>
-          <h3 class="detail-title"></h3>
-          <p class="muted detail-desc"></p>
-          <div class="detail-meta">
-            <div>
-              <span class="pill">ย่าน</span>
-              <strong data-meta="location"></strong>
-            </div>
-            <div>
-              <span class="pill">เวลาที่แนะนำ</span>
-              <strong data-meta="time"></strong>
-            </div>
-          </div>
-          <a class="detail-link" href="#" target="_blank" rel="noopener">ดูแผนที่ / ข้อมูลเพิ่มเติม</a>
-        </div>
-      </div>
-    </div>
-
-    <section id="spots" class="section spots">
-      <div class="container section-header">
-        <div>
-          <p class="eyebrow">BIG SPOTS</p>
-          <h3>25 เฟรมหลักที่ต้องมีในแผน</h3>
-        </div>
-        <p class="muted">เลือกมุมที่ใช่ จากแลนด์มาร์ก ศิลปะ ไปจนถึงตลาดกลางคืน</p>
-      </div>
-      <div class="container spots-grid" id="spots-grid"></div>
-    </section>
-
-    <section class="parallax parallax-2">
-      <div class="parallax-inner container">
-        <h2>River • Sculpture • Faith • Market</h2>
-        <p>แสงนุ่ม เส้นสายเรียบ และพื้นที่โล่งแบบลักชัวรี</p>
-      </div>
-    </section>
-
-    <section class="strip-section">
-      <div class="container section-header">
-        <div>
-          <p class="eyebrow">HORIZONTAL STRIP</p>
-          <h3>คัด 3 แถว มองเห็นอารมณ์เมืองต่อเนื่อง</h3>
-        </div>
-        <p class="muted">แพนโทนภาพแนวนอนสามช่วงเวลา ติดกันเป็นฟิล์มยาว ใช้ได้ทั้งสไลด์โชว์และไลต์บ็อกซ์</p>
-      </div>
-      <div class="strip-rows" id="strip-rows"></div>
-    </section>
-
-    <section id="gallery" class="section masonry-section">
-      <div class="container section-header">
-        <div>
-          <p class="eyebrow">MASONRY</p>
-          <h3>แกลเลอรี 36 ภาพ • เปิดเต็มหน้าจอได้</h3>
-        </div>
-        <p class="muted">จัดวางแบบมินิมอล คมชัดด้วยขอบโทนงาช้าง</p>
-      </div>
-      <div class="masonry container" id="masonry-grid"></div>
-    </section>
-
-    <section class="parallax parallax-3">
-      <div class="parallax-inner container">
-        <h2>Time to exhale</h2>
-        <p>ปล่อยให้สายน้ำโขงเป็นนาฬิกา เพียงแค่ฟังเสียงตัวเอง</p>
-      </div>
     </section>
   </main>
 
-  <div id="lightbox" class="lightbox" aria-hidden="true">
-    <button class="lightbox-close" aria-label="Close">&times;</button>
-    <img id="lightbox-img" src="" alt="Zoomed" />
+  <div id="explore-detail" class="detail-overlay" aria-hidden="true">
+    <div class="detail-panel">
+      <button class="detail-close" aria-label="Close explore detail">&times;</button>
+      <div class="detail-media">
+        <img class="detail-img" src="" alt="Explore detail" />
+      </div>
+      <div class="detail-content">
+        <p class="eyebrow">EXPLORE</p>
+        <h3 class="detail-title"></h3>
+        <p class="muted detail-desc"></p>
+        <div class="detail-meta">
+          <div>
+            <span class="pill">ย่าน</span>
+            <strong data-meta="location"></strong>
+          </div>
+          <div>
+            <span class="pill">เวลาที่แนะนำ</span>
+            <strong data-meta="time"></strong>
+          </div>
+        </div>
+        <a class="detail-link" href="#" target="_blank" rel="noopener">ดูแผนที่ / ข้อมูลเพิ่มเติม</a>
+      </div>
+    </div>
   </div>
 
   <footer class="footer">
     <div class="container footer-inner">
       <div>
         <p class="eyebrow">NONGKHAI RETREAT</p>
-        <h4>Luxury travel interface</h4>
-        <p class="muted">ดีไซน์เรียบ เงียบ ขาว-ครีม เหมาะกับโปรเจกต์โรงแรม โฮมสเตย์ หรือเพจนำเที่ยวริมโขง</p>
+        <h4>Concierge search only</h4>
+        <p class="muted">โฟกัสหน้าเดียวที่ค้นหาจุดเที่ยว 12 แห่งแบบเรียลไทม์ ไม่มีกล่องภาพอื่น ๆ</p>
       </div>
       <div>
-        <p class="eyebrow">CONNECT</p>
-        <p class="muted">อีเมล: stay@nongkhairetreat.com<br/>โทร: +66 (0)42-000-000</p>
+        <p class="eyebrow">SUPPORT</p>
+        <p class="muted">stay@nongkhairetreat.com<br/>+66 (0)42-000-000</p>
       </div>
       <div>
         <p class="eyebrow">INSPIRE</p>
         <p class="muted">Aman-inspired • Slow living • Crafted itineraries</p>
       </div>
     </div>
-    <div class="footer-bottom">© 2025 Nongkhai Retreat. Crafted for presentation purposes.</div>
+    <div class="footer-bottom">© 2025 Nongkhai Retreat. Minimal search experience.</div>
   </footer>
 
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <script src="script.js"></script>
 </body>
 </html>
