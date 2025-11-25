@@ -63,13 +63,18 @@ function startSlider() {
 function buildExplore(list) {
   const grid = document.getElementById('explore-grid');
   grid.innerHTML = '';
-  list.forEach(item => {
+  list.forEach((item, index) => {
     const card = document.createElement('article');
     card.className = 'explore-card';
+    card.dataset.index = index;
     card.innerHTML = `
-      <img src="${item.image}" alt="${item.title}" data-lightbox="${item.image}" />
-      <div class="caption">${item.title}</div>
+      <img src="${item.image}" alt="${item.title}" />
+      <div class="caption">
+        ${item.title}
+        <small>${item.location || ''} · ${item.time || ''}</small>
+      </div>
     `;
+    card.addEventListener('click', () => openExploreDetail(item));
     grid.appendChild(card);
   });
 }
@@ -168,6 +173,42 @@ function initLightbox() {
   document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
 }
 
+function openExploreDetail(item) {
+  const overlay = document.getElementById('explore-detail');
+  if (!overlay) return;
+  overlay.querySelector('.detail-img').src = item.image;
+  overlay.querySelector('.detail-img').alt = item.title;
+  overlay.querySelector('.detail-title').textContent = item.title;
+  overlay.querySelector('.detail-desc').textContent = item.description || '';
+  overlay.querySelector('[data-meta="location"]').textContent = item.location || 'Nongkhai';
+  overlay.querySelector('[data-meta="time"]').textContent = item.time || 'All day';
+  const linkEl = overlay.querySelector('.detail-link');
+  if (item.link) {
+    linkEl.href = item.link;
+    linkEl.style.display = 'inline-flex';
+  } else {
+    linkEl.style.display = 'none';
+  }
+  overlay.style.display = 'flex';
+  overlay.setAttribute('aria-hidden', 'false');
+}
+
+function closeExploreDetail() {
+  const overlay = document.getElementById('explore-detail');
+  if (!overlay) return;
+  overlay.style.display = 'none';
+  overlay.setAttribute('aria-hidden', 'true');
+}
+
+function bindExploreDetailEvents() {
+  const overlay = document.getElementById('explore-detail');
+  if (!overlay) return;
+  const closeBtn = overlay.querySelector('.detail-close');
+  closeBtn?.addEventListener('click', closeExploreDetail);
+  overlay.addEventListener('click', e => { if (e.target === overlay) closeExploreDetail(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeExploreDetail(); });
+}
+
 async function loadWeather() {
   const box = document.getElementById('weather-box');
   try {
@@ -262,6 +303,7 @@ async function init() {
     buildFestivals(state.data.festivals);
     initMap(state.data.spots);
     initLightbox();
+    bindExploreDetailEvents();
     loadWeather();
     updateSmartSuggestion();
   } catch (err) {
