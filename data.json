@@ -1,0 +1,94 @@
+{
+  "hero": [
+    {
+      "title": "Nongkhai Retreat",
+      "subtitle": "Aman-Inspired Riverside Hideaway",
+      "description": "สายน้ำโขงและหมอกยามเช้าที่สงบนิ่ง เติมเต็มวันพักผ่อนด้วยแสง สี และเส้นสายแบบลักชัวรี",
+      "image": "img/hero1.jpg"
+    },
+    {
+      "title": "Golden Mekong",
+      "subtitle": "Sunset Over Friendship Bridge",
+      "description": "ชมพระอาทิตย์ลับขอบฟ้ากับเงาสะท้อนของสะพานมิตรภาพไทย–ลาว",
+      "image": "img/hero2.jpg"
+    },
+    {
+      "title": "Living Culture",
+      "subtitle": "Wat Pho Chai Sanctuary",
+      "description": "วัดเก่าแก่คู่เมืองกับสถาปัตยกรรมสงบ มีกลิ่นอายศิลปะลาว",
+      "image": "img/hero3.jpg"
+    },
+    {
+      "title": "Sculptural Dream",
+      "subtitle": "Sala Keoku Park",
+      "description": "สวนประติมากรรมพญานาคและงานปูนปั้นเหนือจินตนาการ",
+      "image": "img/hero4.jpg"
+    },
+    {
+      "title": "Night & River",
+      "subtitle": "Mekong Walking Street",
+      "description": "ถนนคนเดินริมโขงกับไฟระยิบระยับและอาหารพื้นบ้าน",
+      "image": "img/hero5.jpg"
+    }
+  ],
+  "explore": [
+    {"title": "ริมโขงยามเช้า", "image": "img/explore1.jpg", "location": "เส้นทางริมโขง", "time": "06.00-08.00", "description": "เดินรับลมเย็นพร้อมหมอกบาง ชมเงาสะท้อนสะพานมิตรภาพและวิถีชาวบ้าน", "link": "https://maps.app.goo.gl/zTGfTaa6bV4oKQHJ8"},
+    {"title": "คาเฟ่วิวสะพาน", "image": "img/explore2.jpg", "location": "ริมสะพานมิตรภาพ", "time": "09.00-11.00", "description": "จิบกาแฟดริปพร้อมมองเห็นแนวสะพาน แสงสวยย้อนเข้าร้านสไตล์มินิมอล", "link": "https://maps.app.goo.gl/yV6QDFm8B42afA8W6"},
+    {"title": "วัดโพธิ์ชัย", "image": "img/explore3.jpg", "location": "ตัวเมือง", "time": "08.00-12.00", "description": "กราบพระใสอันศักดิ์สิทธิ์ สถาปัตยกรรมลาวร่วมสมัยและงานจิตรกรรมภายใน", "link": "https://maps.app.goo.gl/2TAxXqQCkUu6K2Jj8"},
+    {"title": "ลานวัฒนธรรม", "image": "img/explore4.jpg", "location": "ริมโขง", "time": "16.00-19.00", "description": "ลานกว้างสำหรับชมการแสดงพื้นเมือง เดินเล่นกับครอบครัวและถ่ายภาพกับประติมากรรม", "link": "https://maps.app.goo.gl/wRrXeaQsq7QayADYA"},
+    {"title": "เส้นทางจักรยาน", "image": "img/explore5.jpg", "location": "ริมน้ำ", "time": "06.00-09.00", "description": "ทางเรียบติดน้ำโขง ปั่นสบาย แวะพักจุดชมวิวและร้านน้ำผลไม้ระหว่างทาง", "link": "https://maps.app.goo.gl/vU1Hh7n6WZ5KZr5e6"},
+    {"title": "ตลาดเช้า", "image": "img/explore6.jpg", "location": "ถนนท่าเสด็จ", "time": "07.00-10.00", "description": "อาหารพื้นบ้าน ผักริมโขง และขนมไทย-ลาว ให้เลือกซื้อกลับที่พักแบบสดใหม่", "link": "https://maps.app.goo.gl/7mNErfeAuUMiywrh7"},
+    {"title": "หมู่บ้านศิลป์", "image": "img/explore7.jpg", "location": "ชานเมือง", "time": "10.00-15.00", "description": "สตูดิโอเล็ก ๆ งานคราฟต์ ผ้าทอ และแกลเลอรีที่ซ่อนอยู่ในสวนต้นไม้", "link": "https://maps.app.goo.gl/cF6p5NCSn3ksZAxJ9"},
+    {"title": "ริมโขงยามค่ำ", "image": "img/explore8.jpg", "location": "Mekong Walk", "time": "18.00-21.00", "description": "ไฟระยิบระยับ เดินชมวิวแม่น้ำและลองสตรีทฟู้ด จบท้ายด้วยไอศกรีมโฮมเมด", "link": "https://maps.app.goo.gl/Q2kwzbjQwFcmZKzU6"},
+    {"title": "สกายไลน์หนองคาย", "image": "img/explore9.jpg", "location": "จุดชมวิวเมือง", "time": "17.00-19.00", "description": "มองเห็นเส้นโค้งของแม่น้ำกับแนวตึกเก่าและสะพานมิตรภาพในเฟรมเดียว", "link": "https://maps.app.goo.gl/Kv6duWZcoao9jFtH7"},
+    {"title": "มุมลับริมสะพาน", "image": "img/explore10.jpg", "location": "ใต้สะพานมิตรภาพ", "time": "08.00-10.00", "description": "จุดหลบแดดสำหรับนั่งเล่นและถ่ายภาพมุมกว้าง เงาสะพานทอดลงบนผิวน้ำ", "link": "https://maps.app.goo.gl/gWUc1iUWuT7Mc9EC8"},
+    {"title": "มิตรภาพไทย–ลาว", "image": "img/explore11.jpg", "location": "ด่านสะพาน", "time": "15.00-18.00", "description": "เดินชมวิถีการค้าชายแดนและมุมถ่ายรูปป้ายสะพาน ก่อนข้ามไปเวียงจันทน์", "link": "https://maps.app.goo.gl/VHzuSHSHmgC6dbsM9"},
+    {"title": "เมืองเก่า", "image": "img/explore12.jpg", "location": "ย่านเก่า", "time": "16.00-19.00", "description": "เดินตามอาคารโคโลเนียล ร้านชา และซอยที่มีกราฟฟิตี้แนวพื้นเมือง", "link": "https://maps.app.goo.gl/FTTX6pCYKhUMhu1X8"}
+  ],
+  "spots": [
+    {"title": "ริมโขงจุดชมวิว", "area": "Riverside", "image": "img/spot1.jpg", "coords": [17.8782, 102.7414], "tag": "sunset"},
+    {"title": "สะพานมิตรภาพ", "area": "Riverside", "image": "img/spot2.jpg", "coords": [17.8822, 102.7552], "tag": "landmark"},
+    {"title": "วัดโพธิ์ชัย", "area": "City", "image": "img/spot3.jpg", "coords": [17.8733, 102.742], "tag": "temple"},
+    {"title": "ศาลาแก้วกู่", "area": "Park", "image": "img/spot4.jpg", "coords": [17.8478, 102.7483], "tag": "art"},
+    {"title": "ถนนคนเดินริมโขง", "area": "Riverside", "image": "img/spot5.jpg", "coords": [17.8788, 102.744], "tag": "market"},
+    {"title": "สกายไลน์ยามค่ำ", "area": "City", "image": "img/spot6.jpg", "coords": [17.8805, 102.7465], "tag": "night"},
+    {"title": "คาเฟ่ริมแม่น้ำ", "area": "Riverside", "image": "img/spot7.jpg", "coords": [17.882, 102.742], "tag": "cafe"},
+    {"title": "ลานกิจกรรม", "area": "City", "image": "img/spot8.jpg", "coords": [17.877, 102.748], "tag": "event"},
+    {"title": "ถ่ายรูปมุมสูง", "area": "Viewpoint", "image": "img/spot9.jpg", "coords": [17.884, 102.74], "tag": "view"},
+    {"title": "สวนสาธารณะ", "area": "Park", "image": "img/spot10.jpg", "coords": [17.874, 102.75], "tag": "green"},
+    {"title": "พระพุทธรูปริมโขง", "area": "Riverside", "image": "img/spot11.jpg", "coords": [17.879, 102.739], "tag": "culture"},
+    {"title": "มุมสะพาน", "area": "Riverside", "image": "img/spot12.jpg", "coords": [17.881, 102.756], "tag": "bridge"},
+    {"title": "อาร์ตวอลล์", "area": "City", "image": "img/spot13.jpg", "coords": [17.879, 102.747], "tag": "art"},
+    {"title": "คาเฟ่ไม้", "area": "City", "image": "img/spot14.jpg", "coords": [17.876, 102.744], "tag": "cafe"},
+    {"title": "ลานพิธีการ", "area": "City", "image": "img/spot15.jpg", "coords": [17.872, 102.749], "tag": "culture"},
+    {"title": "ชุมชนริมน้ำ", "area": "Riverside", "image": "img/spot16.jpg", "coords": [17.883, 102.741], "tag": "local"},
+    {"title": "สวนประติมากรรม", "area": "Park", "image": "img/spot17.jpg", "coords": [17.848, 102.747], "tag": "sculpture"},
+    {"title": "ริมโขงยามค่ำ", "area": "Riverside", "image": "img/spot18.jpg", "coords": [17.8795, 102.745], "tag": "night"},
+    {"title": "ตลาดท่าเสด็จ", "area": "Riverside", "image": "img/spot19.jpg", "coords": [17.8802, 102.7432], "tag": "market"},
+    {"title": "ริมทางเดิน", "area": "City", "image": "img/spot20.jpg", "coords": [17.8775, 102.7425], "tag": "walk"},
+    {"title": "จุดชมหมอก", "area": "Viewpoint", "image": "img/spot21.jpg", "coords": [17.89, 102.738], "tag": "sunrise"},
+    {"title": "สวนริมน้ำ", "area": "Riverside", "image": "img/spot22.jpg", "coords": [17.8815, 102.7445], "tag": "garden"},
+    {"title": "มุมถ่ายภาพ", "area": "City", "image": "img/spot23.jpg", "coords": [17.8785, 102.746], "tag": "photo"},
+    {"title": "ทางเดินไม้", "area": "Riverside", "image": "img/spot24.jpg", "coords": [17.8825, 102.7435], "tag": "nature"}
+  ],
+  "stripRows": [
+    ["img/strip1.jpg", "img/strip2.jpg", "img/strip3.jpg", "img/strip4.jpg", "img/strip5.jpg"],
+    ["img/strip6.jpg", "img/strip7.jpg", "img/strip8.jpg", "img/strip9.jpg", "img/strip10.jpg"],
+    ["img/strip11.jpg", "img/strip12.jpg", "img/strip13.jpg", "img/strip14.jpg", "img/strip15.jpg"]
+  ],
+  "masonry": [
+    "img/g1.jpg", "img/g2.jpg", "img/g3.jpg", "img/g4.jpg", "img/g5.jpg", "img/g6.jpg", "img/g7.jpg", "img/g8.jpg", "img/g9.jpg", "img/g10.jpg", "img/g11.jpg", "img/g12.jpg", "img/g13.jpg", "img/g14.jpg", "img/g15.jpg", "img/g16.jpg", "img/g17.jpg", "img/g18.jpg", "img/g19.jpg", "img/g20.jpg", "img/g21.jpg", "img/g22.jpg", "img/g23.jpg", "img/g24.jpg", "img/g25.jpg", "img/g26.jpg", "img/g27.jpg", "img/g28.jpg", "img/g29.jpg", "img/g30.jpg", "img/g31.jpg", "img/g32.jpg", "img/g33.jpg", "img/g34.jpg", "img/g35.jpg", "img/g36.jpg"
+  ],
+  "festivals": [
+    {
+      "title": "ประเพณีบั้งไฟพญานาค",
+      "description": "แสงไฟสีแดงพุ่งขึ้นจากลำน้ำโขง ช่วงออกพรรษาอันศักดิ์สิทธิ์",
+      "image": "img/festival1.jpg"
+    },
+    {
+      "title": "ถนนคนเดินริมโขง",
+      "description": "งานคราฟต์ อาหารพื้นบ้าน และดนตรีสดทุกสุดสัปดาห์",
+      "image": "img/festival2.jpg"
+    }
+  ]
+}
